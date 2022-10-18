@@ -1,0 +1,17 @@
+{
+    "name": "safiul/prectice1",
+    "description": "precticing plugin development",
+    "type": "project",
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "safiul-dev",
+            "email": "parsonal494@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {"Inc\\":"./inc"}
+    }
+}
