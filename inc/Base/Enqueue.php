@@ -13,7 +13,7 @@ class Enqueue extends BaseController {
     }
 
     public function enqueue () {
-        wp_enqueue_style('thispluginstyle', $this->get_plugin_path() . '/assets/mystyle.css' );
-        wp_enqueue_script('thispluginscript', $this->get_plugin_path() . '/assets/myscript.js' );
+        wp_enqueue_style('thispluginmystyle', $this->get_plugin_url() . '/assets/mystyle.css' );
+        wp_enqueue_script('thispluginmyscript', $this->get_plugin_url() . '/assets/myscript.js' );
     }
  }

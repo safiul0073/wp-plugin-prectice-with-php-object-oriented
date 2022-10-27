@@ -8,23 +8,32 @@ namespace Inc\Pages;
 use Inc\API\SettingApi;
 use Inc\Base\BaseController;
 use Inc\API\Callbacks\AdminCallbacks;
-
+use Inc\API\Callbacks\ManagerCallbacks;
 
 class Admin extends BaseController{
 
     protected $settings;
     protected $callbacks;
+    protected $callbacks_mger;
 
     public function __construct()
     {
         $this->settings = new SettingApi();
         $this->callbacks = new AdminCallbacks();
+        $this->callbacks_mger = new ManagerCallbacks();
     }
 
     public function register () {
         // add_action( 'admin_menu', array($this, 'register_my_custom_menu_page') );
         add_action('init', array($this, 'add_custom_post_type'));
-        $this->settings->addPages( $this->menuPages() )->withSubPage( 'Dashboard' )->addSubPages( $this->menuSubPage() )->register();
+        
+        $this->customSettings()->sections()->fields();
+        
+        $this->settings->addPages( $this->menuPages() )
+                       ->withSubPage( 'Dashboard' )
+                       ->addSubPages( $this->menuSubPage() )
+                       ->register();
+        
     }
 
     public function add_custom_post_type () {
@@ -37,6 +46,177 @@ class Admin extends BaseController{
                     'has_archive' => true,
             )
         );
+    }
+
+    // settings 
+    private function customSettings () {
+        $settings =  array (
+            array(
+                "option_group"  => 'prectice_option_settings',
+                "option_name"   => 'cpt_manager',
+                'callback'      => array($this->callbacks_mger, 'checkboxSenitize')
+            ),
+            array(
+                "option_group"  => 'prectice_option_settings',
+                "option_name"   => 'texonomy_manager',
+                'callback'      => array($this->callbacks_mger, 'checkboxSenitize')
+            ),
+            array(
+                "option_group"  => 'prectice_option_settings',
+                "option_name"   => 'media_widget',
+                'callback'      => array($this->callbacks_mger, 'checkboxSenitize')
+            ),
+            array(
+                "option_group"  => 'prectice_option_settings',
+                "option_name"   => 'gellary_manager',
+                'callback'      => array($this->callbacks_mger, 'checkboxSenitize')
+            ),
+            array(
+                "option_group"  => 'prectice_option_settings',
+                "option_name"   => 'testimonial_manager',
+                'callback'      => array($this->callbacks_mger, 'checkboxSenitize')
+            ),
+            array(
+                "option_group"  => 'prectice_option_settings',
+                "option_name"   => 'template_manager',
+                'callback'      => array($this->callbacks_mger, 'checkboxSenitize')
+            ),
+            array(
+                "option_group"  => 'prectice_option_settings',
+                "option_name"   => 'login_manager',
+                'callback'      => array($this->callbacks_mger, 'checkboxSenitize')
+            ),
+            array(
+                "option_group"  => 'prectice_option_settings',
+                "option_name"   => 'membership_manager',
+                'callback'      => array($this->callbacks_mger, 'checkboxSenitize')
+            ),
+            array(
+                "option_group"  => 'prectice_option_settings',
+                "option_name"   => 'chet_manager',
+                'callback'      => array($this->callbacks_mger, 'checkboxSenitize')
+            ),
+        );
+        $this->settings->addSettings($settings);
+        return $this;
+    }
+    private function sections () {
+        $secs = array (
+            array(
+                "id"            => 'prectice_admin_index',
+                "title"         => 'Manage Settings',
+                "callback"      => array($this->callbacks_mger, 'adminSettingSection'),
+                "page"          => 'prectice1_custom_page'
+            )
+        );
+        $this->settings->addSections($secs);
+        return $this;
+    }
+    private function fields () {
+        $field = array (
+            array(
+                "id"        => 'cpt_manager',
+                "title"     => 'Activate CPT Manager',
+                'callback'  => array($this->callbacks_mger, 'checkBoxField'),
+                "page"      => 'prectice1_custom_page',
+                "section"   => 'prectice_admin_index',
+                'args'      =>  array(
+                    "lebel_for"     => 'cpt_manager',
+                    "class"         => 'ui-toggle'
+                )
+            ),
+            array(
+                "id"        => 'texonomy_manager',
+                "title"     => 'Activate Texonomy Manager',
+                'callback'  => array($this->callbacks_mger, 'checkBoxField'),
+                "page"      => 'prectice1_custom_page',
+                "section"   => 'prectice_admin_index',
+                'args'      =>  array(
+                    "lebel_for"     => 'texonomy_manager',
+                    "class"         => 'ui-toggle'
+                )
+            ),
+            array(
+                "id"        => 'media_widget',
+                "title"     => 'Activate Media & Widget Manager',
+                'callback'  => array($this->callbacks_mger, 'checkBoxField'),
+                "page"      => 'prectice1_custom_page',
+                "section"   => 'prectice_admin_index',
+                'args'      =>  array(
+                    "lebel_for"     => 'media_widget',
+                    "class"         => 'ui-toggle'
+                )
+            ),
+            array(
+                "id"        => 'gellary_manager',
+                "title"     => 'Activate Gellary Manager',
+                'callback'  => array($this->callbacks_mger, 'checkBoxField'),
+                "page"      => 'prectice1_custom_page',
+                "section"   => 'prectice_admin_index',
+                'args'      =>  array(
+                    "lebel_for"     => 'gellary_manager',
+                    "class"         => 'ui-toggle'
+                )
+            ),
+            array(
+                "id"        => 'testimonial_manager',
+                "title"     => 'Activate Testimonial Manager',
+                'callback'  => array($this->callbacks_mger, 'checkBoxField'),
+                "page"      => 'prectice1_custom_page',
+                "section"   => 'prectice_admin_index',
+                'args'      =>  array(
+                    "lebel_for"     => 'testimonial_manager',
+                    "class"         => 'ui-toggle'
+                )
+            ),
+            array(
+                "id"        => 'template_manager',
+                "title"     => 'Activate Template Manager',
+                'callback'  => array($this->callbacks_mger, 'checkBoxField'),
+                "page"      => 'prectice1_custom_page',
+                "section"   => 'prectice_admin_index',
+                'args'      =>  array(
+                    "lebel_for"     => 'template_manager',
+                    "class"         => 'ui-toggle'
+                )
+            ),
+            array(
+                "id"        => 'login_manager',
+                "title"     => 'Activate Login & SignUp Manager',
+                'callback'  => array($this->callbacks_mger, 'checkBoxField'),
+                "page"      => 'prectice1_custom_page',
+                "section"   => 'prectice_admin_index',
+                'args'      =>  array(
+                    "lebel_for"     => 'login_manager',
+                    "class"         => 'ui-toggle'
+                )
+            ),
+            array(
+                "id"        => 'membership_manager',
+                "title"     => 'Activate Membership Manager',
+                'callback'  => array($this->callbacks_mger, 'checkBoxField'),
+                "page"      => 'prectice1_custom_page',
+                "section"   => 'prectice_admin_index',
+                'args'      =>  array(
+                    "lebel_for"     => 'membership_manager',
+                    "class"         => 'ui-toggle'
+                )
+            ),
+            array(
+                "id"        => 'chet_manager',
+                "title"     => 'Activate Chet Manager',
+                'callback'  => array($this->callbacks_mger, 'checkBoxField'),
+                "page"      => 'prectice1_custom_page',
+                "section"   => 'prectice_admin_index',
+                'args'      =>  array(
+                    "lebel_for"     => 'chet_manager',
+                    "class"         => 'ui-toggle'
+                )
+            ),
+             
+        );
+        $this->settings->addFields($field);
+        return $this;
     }
 
     // register custome admin menus  
