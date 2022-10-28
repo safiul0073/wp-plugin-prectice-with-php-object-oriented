@@ -11,7 +11,11 @@ class ManagerCallbacks extends BaseController{
 
     function checkboxSenitize ($input) 
     {
-        return (isset($input) ? true : false);
+        $output = array();
+        foreach ( $this->managerList() as $key => $value) {
+            $output[$key] = isset($input[$key]) ? true : false;
+        }
+        return $output;
     }
 
     public function adminSettingSection () 
@@ -23,8 +27,8 @@ class ManagerCallbacks extends BaseController{
     {
         $class = $arge['class'];
         $name  = $arge['lebel_for'];
-        $value = get_option( $name );
-
-        echo '<input type="checkbox" value="1" name="'. $name .'" class="' . $class .'" ' . ($value ? "checked" : '') .'  ';
+        $option_name = $arge['option_name'];
+        $checkbox = get_option( $option_name );
+        echo '<input type="checkbox" value="1" name="' . $option_name .'['. $name .']" class="' . $class .'" ' . ($checkbox[$name] ? "checked" : '') .'  ';
     }
 }
