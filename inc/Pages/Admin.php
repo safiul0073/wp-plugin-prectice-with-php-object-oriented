@@ -87,7 +87,7 @@ class Admin extends BaseController{
                     'args'      =>  array(
                         "lebel_for"     => $key,
                         "class"         => 'ui-toggle',
-                        "option_name"   => "prectice1_custom_page"
+                        "option_name"   => "prectice_option_settings"
                     )
                 );
         }
