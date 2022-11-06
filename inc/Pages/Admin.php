@@ -51,14 +51,11 @@ class Admin extends BaseController{
     // settings 
     private function customSettings () {
         
-        $settings = array();
-        foreach ($this->managerList() as $key => $value) {
-            $settings[] = array(
-                            "option_group"  => 'prectice_option_settings',
-                            "option_name"   => $key,
-                            'callback'      => array($this->callbacks_mger, 'checkboxSenitize')
-                        );
-        }
+        $settings[] = array(
+            "option_group"  => 'prectice_option_settings',
+            "option_name"   => 'prectice1_custom_page',
+            'callback'      => array($this->callbacks_mger, 'checkboxSenitize')
+        );
         $this->settings->addSettings($settings);
         return $this;
     }
@@ -87,7 +84,7 @@ class Admin extends BaseController{
                     'args'      =>  array(
                         "lebel_for"     => $key,
                         "class"         => 'ui-toggle',
-                        "option_name"   => "prectice_option_settings"
+                        "option_name"   => "prectice1_custom_page"
                     )
                 );
         }
