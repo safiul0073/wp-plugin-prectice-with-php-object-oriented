@@ -15,7 +15,7 @@ class SettingApi {
 
     public function register () {
 
-        if ( ! empty($this->admin_pages) ) {
+        if ( ! empty($this->admin_pages) && ! empty($this->admin_subpage) ) {
             add_action('admin_menu', array($this, 'addAdminPage'));
         }
 
@@ -38,18 +38,17 @@ class SettingApi {
         
         if (empty($this->admin_pages)) return $this;
         $perent_page = $this->admin_pages[0];
-        $subpage = array(
+        $this->admin_subpage = array(
             array(
                 "parent_slug"   => $perent_page['menu_slug'],
                 "page_title"    => $perent_page['page_title'],
-                "menu_title"    => ($title) ? $title : $perent_page['menu_title'],
+                "menu_title"    => $title ? $title : $perent_page['menu_title'],
                 "capability"    => $perent_page['capability'],
                 "menu_slug"     => $perent_page['menu_slug'],
                 "callback"      => $perent_page['callback'],
             ),
         );
-
-        $this->admin_subpage = $subpage;
+        
         return $this;
     }
 
@@ -66,6 +65,7 @@ class SettingApi {
                 $page['position']
             );
         }
+        
         foreach ($this->admin_subpage as $page) {
             add_submenu_page(
                 $page['parent_slug'],

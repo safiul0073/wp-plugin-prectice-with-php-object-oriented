@@ -24,29 +24,16 @@ class Admin extends BaseController{
     }
 
     public function register () {
-        // add_action( 'admin_menu', array($this, 'register_my_custom_menu_page') );
-        add_action('init', array($this, 'add_custom_post_type'));
         
         $this->customSettings()->sections()->fields();
         
         $this->settings->addPages( $this->menuPages() )
                        ->withSubPage( 'Dashboard' )
-                       ->addSubPages( $this->menuSubPage() )
+                    //    ->addSubPages( $this->menuSubPage() )
                        ->register();
         
     }
 
-    public function add_custom_post_type () {
-        register_post_type('slider',array(
-                'labels'      => array(
-                    'name'          => __('Slider', 'textdomain'),
-                    'singular_name' => __('Slider', 'textdomain'),
-                ),
-                    'public'      => true,
-                    'has_archive' => true,
-            )
-        );
-    }
 
     // settings 
     private function customSettings () {
